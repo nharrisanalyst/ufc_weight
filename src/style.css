@@ -1,0 +1,12 @@
+.main-grid{
+  width:100%;
+  text-align: center;
+
+}
+
+
+.sm-link{
+  display:inline-block;
+  height:25px;
+  width:25px;
+}
