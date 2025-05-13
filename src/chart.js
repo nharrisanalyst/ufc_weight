@@ -2,6 +2,11 @@ import * as d3 from 'd3';
 import { annotation,  annotationLabel, annotationCalloutCurve } from 'd3-svg-annotation';
 import { legendColor } from 'd3-svg-legend';
 
+
+export const margin ={t:20,r:50,b:20,l:125};
+export const height = 1200 - (margin.r + margin.l);
+export  const width = 925 - (margin.t + margin.b);
+
 export const createChart= async (element) =>{
     const data = await d3.csv('data/ufc_weight.csv',d=>{
         return{
@@ -21,9 +26,7 @@ export const createChart= async (element) =>{
 
      console.log('this is the data',data);
 
-    const margin ={t:20,r:20,b:20,l:110};
-    const height = 1200 - (margin.r + margin.l);
-    const width = 875 - (margin.t + margin.b);
+    
     const svg = d3.select(element).append('svg').attr('height', height + (margin.r + margin.l)).attr('width', width + (margin.l + margin.r));
  
     const mainG = svg.append('g').attr('transform', `translate(${margin.l},${margin.t})`)
@@ -67,7 +70,7 @@ export const createChart= async (element) =>{
                    .attr('x1',d=>xScale(0.3))
                    .attr('x2',d=>xScale(0.3))
                    .attr('y1', d=>yScale(0))
-                   .attr('y2', -5)
+                   .attr('y2', -10)
                    .attr('stroke-width', 1)
                    .attr('stroke', 'rgba(10,10,10, 0.80)')
                    .attr('stroke-dasharray', '5 5 5 5')
@@ -80,5 +83,43 @@ export const createChart= async (element) =>{
                       .text('<- SAFE 1 day wight loss 0.3lbs')
    
 
+
+   //annotations
+
+   const type = annotationLabel
+    const data_anon_one = data_by_w_i.filter(d=>d.fighter === 'Geoff Neal');
+    console.log('data test', data_anon_one);
+   const first_anon = [{
+    note: {
+      title: "Geoff Neal weight increased  30.3lbs",
+      label:"Neal missed weight at ufc 285 by 4 pounds. Resorting to an extreme weight cut he made weight cutting over thirty pounds 2",
+      bgPadding: 5,
+      wrap:200,
+    },
+    connector: {
+        end: "arrow",    
+        type: "line",     
+        lineType : "vertical",   
+      },
+    //can use x, y directly instead of data
+    data: data_anon_one[0],
+    className: "show-bg",
+    x: xScale(data_anon_one[0].w_i) + 18 ,
+    y: yScale(data_anon_one[0].fighter) +5,
+
+    dx:55,
+    dy:25
+
+
+  }]
+
+  const makeAnnotations = annotation()
+  .notePadding(15)
+  .type(type)
+  .annotations(first_anon)
+
+  mainG.append("g")
+  .attr("class", "annotation-group")
+  .call(makeAnnotations)
 
 }
