@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import { select } from 'd3';
 import { annotation,  annotationLabel, annotationCalloutCurve } from 'd3-svg-annotation';
 import { legendColor } from 'd3-svg-legend';
 
@@ -22,16 +23,9 @@ export const createChart= async (element) =>{
     });
 
     const data_by_w_i = data.sort((a,b)=> a.w_i - b.w_i).filter(d=> d.perc_regained >= 10);
-    console.log(data_by_w_i.length/ data.length);
-
-     console.log('this is the data',data);
-
-    
+    console.log(data_by_w_i)
     const svg = d3.select(element).append('svg').attr('height', height + (margin.r + margin.l)).attr('width', width + (margin.l + margin.r));
- 
     const mainG = svg.append('g').attr('transform', `translate(${margin.l},${margin.t})`)
-
-     console.log('this is a must win', d3.max(data_by_w_i, d => d.f_n_w))
     //scales
    const xScale = d3.scaleLinear().domain([0, d3.max(data_by_w_i, d => d.w_i)]).range([0,width]).nice();
    const yScale = d3.scalePoint([0,...data_by_w_i.map(d=>d.fighter)], [height,0]);
@@ -92,7 +86,7 @@ export const createChart= async (element) =>{
    const first_anon = [{
     note: {
       title: "Geoff Neal weight increased  30.3lbs",
-      label:"Neal missed weight at ufc 285 by 4 pounds. Resorting to an extreme weight cut he made weight cutting over thirty pounds 2",
+      label:"Neal missed weight at ufc 285 by 4 pounds. Resorting to an even more extreme weight cut he made weight at 170.5 at UFC 298 cutting over 30lbs.",
       bgPadding: 5,
       wrap:200,
     },
@@ -122,4 +116,115 @@ export const createChart= async (element) =>{
   .attr("class", "annotation-group")
   .call(makeAnnotations)
 
+
+  const data_anon_two = data_by_w_i.filter(d=>d.fighter === 'Paulo Costa');
+  const second_anon = [{
+    note: {
+      title: "Paulo Costa weighed in at 185.5 but has a normal body weight of 211lbs ",
+      label:"Paulo faught at a more normal weight in UFC fight Night 196 at 205lbs becuase acosta admitted to weighing 211lbs (his walk around weight) Wensday before the fight. source-3",
+      bgPadding: 5,
+      wrap:200,
+    },
+    connector: {
+        end: "arrow",    
+        type: "line",     
+        lineType : "vertical",   
+      },
+    //can use x, y directly instead of data
+    data: data_anon_two[0],
+    className: "show-bg",
+    x: xScale(data_anon_two[0].w_i) + 18 ,
+    y: yScale(data_anon_two[0].fighter) +5,
+
+    dx:15,
+    dy:225
+
+
+  }]
+
+  const makeAnnotations_two = annotation()
+  .notePadding(15)
+  .type(type)
+  .annotations(second_anon)
+
+  mainG.append("g")
+  .attr("class", "annotation-group")
+  .call(makeAnnotations_two)
+
+
+  //labels
+  mainG.append('g').append('text')
+        .attr('x', width-22)
+        .attr('y', height-2)
+        .attr('font-size', '12px')
+        .attr('fill', '#555')
+        .text('lbs')
+
+        mainG.append('g').append('text')
+        .attr('x', -50)
+        .attr('y', -10)
+        .attr('font-size', '12px')
+        .attr('fill', '#222')
+        .text('Fighter')
+
+
+        const data_anon_three = data_by_w_i.filter(d=>d.fighter === 'Aspen Ladd');
+        const third_anon = [{
+          note: {
+            title: "Aspen Ladd regained 17.79% of her body weight",
+            label:"The most in the dataset. She was visibly shaking when she weighed in at 135lbs and was knocked out in 16 seconds. video links below",
+            bgPadding: 5,
+            wrap:200,
+          },
+          connector: {
+              end: "arrow",    
+              type: "line",     
+              lineType : "vertical",   
+            },
+          //can use x, y directly instead of data
+          data: data_anon_three[0],
+          className: "show-bg",
+          x: xScale(data_anon_three[0].w_i) + 18 ,
+          y: yScale(data_anon_three[0].fighter) +5,
+      
+          dx:7,
+          dy:400
+      
+      
+        }]
+      
+        const makeAnnotations_three = annotation()
+        .notePadding(15)
+        .type(type)
+        .annotations(third_anon)
+      
+        mainG.append("g")
+        .attr("class", "annotation-group")
+        .call(makeAnnotations_three)
+      
+        //labels
+        mainG.append('g').append('text')
+              .attr('x', width-22)
+              .attr('y', height-2)
+              .attr('font-size', '12px')
+              .attr('fill', '#555')
+              .text('lbs')
+      
+              mainG.append('g').append('text')
+              .attr('x', -50)
+              .attr('y', -10)
+              .attr('font-size', '12px')
+              .attr('fill', '#222')
+              .text('Fighter')
+
+    //remove zero
+
+    select('.y-axis').select('.tick').remove();
+
 }
+
+
+
+
+
+      

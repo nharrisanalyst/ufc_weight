@@ -20,10 +20,10 @@
 }
 
 #mainTitle{
-  font-size:28px;
+  font-size:42px;
   text-decoration:bold;
   text-align: left;
-  line-height: 34px;
+  line-height: 46px;
   margin-bottom: 16px;
   padding-top:16px;
 }
@@ -64,4 +64,19 @@ a:hover {
   text-align: left;
   line-height: 12px;
   margin-bottom: 16px;
+}
+
+.subSourcesVideo{
+  font-size:14px;
+  color:#555;
+  text:bold;
+  text-align: left;
+  line-height: 16px;
+  margin-bottom: 16px;
+}
+
+
+#links{
+  text-align: center;
+  padding-top: 112px;
 }
