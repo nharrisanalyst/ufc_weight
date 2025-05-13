@@ -23,7 +23,6 @@ export const createChart= async (element) =>{
     });
 
     const data_by_w_i = data.sort((a,b)=> a.w_i - b.w_i).filter(d=> d.perc_regained >= 10);
-    console.log(data_by_w_i)
     const svg = d3.select(element).append('svg').attr('height', height + (margin.r + margin.l)).attr('width', width + (margin.l + margin.r));
     const mainG = svg.append('g').attr('transform', `translate(${margin.l},${margin.t})`)
     //scales
@@ -81,8 +80,7 @@ export const createChart= async (element) =>{
    //annotations
 
    const type = annotationLabel
-    const data_anon_one = data_by_w_i.filter(d=>d.fighter === 'Geoff Neal');
-    console.log('data test', data_anon_one);
+   const data_anon_one = data_by_w_i.filter(d=>d.fighter === 'Geoff Neal');
    const first_anon = [{
     note: {
       title: "Geoff Neal weight increased  30.3lbs",
