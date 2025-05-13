@@ -72,7 +72,7 @@ export const createChart= async (element) =>{
                    .attr('y1', d=>yScale(0))
                    .attr('y2', -10)
                    .attr('stroke-width', 1)
-                   .attr('stroke', 'rgba(10,10,10, 0.80)')
+                   .attr('stroke', 'rgba(255,0,0, 0.80)')
                    .attr('stroke-dasharray', '5 5 5 5')
 
    //safe line label 
