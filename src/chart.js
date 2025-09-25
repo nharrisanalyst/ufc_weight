@@ -4,9 +4,9 @@ import { annotation,  annotationLabel, annotationCalloutCurve } from 'd3-svg-ann
 import { legendColor } from 'd3-svg-legend';
 
 
-export const margin ={t:20,r:50,b:20,l:125};
-export const height = 1200 - (margin.r + margin.l);
-export  const width = 925 - (margin.t + margin.b);
+export const margin ={t:25,r:70,b:50,l:125};
+export const height = 1200 - (margin.t + margin.b);
+export  const width = 925 - (margin.l + margin.r);
 
 export const createChart= async (element) =>{
     const data = await d3.csv('data/ufc_weight.csv',d=>{
@@ -23,7 +23,8 @@ export const createChart= async (element) =>{
     });
 
     const data_by_w_i = data.sort((a,b)=> a.w_i - b.w_i).filter(d=> d.perc_regained >= 10);
-    const svg = d3.select(element).append('svg').attr('height', height + (margin.r + margin.l)).attr('width', width + (margin.l + margin.r));
+    console.log(data.length, data_by_w_i.length, data_by_w_i.length/data.length)
+    const svg = d3.select(element).append('svg').attr('height', height + (margin.t + margin.b)).attr('width', width + (margin.l + margin.r));
     const mainG = svg.append('g').attr('transform', `translate(${margin.l},${margin.t})`)
     //scales
    const xScale = d3.scaleLinear().domain([0, d3.max(data_by_w_i, d => d.w_i)]).range([0,width]).nice();

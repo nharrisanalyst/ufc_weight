@@ -24,8 +24,14 @@
   text-decoration:bold;
   text-align: left;
   line-height: 46px;
-  margin-bottom: 16px;
+  margin-bottom: 48px;
   padding-top:16px;
+  font-weight: inherit;
+
+}
+
+#chart-title{
+  font-weight: inherit;
 }
 
 a {
